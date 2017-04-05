@@ -6,7 +6,7 @@
 /*   By: pvan-erp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 21:40:34 by pvan-erp          #+#    #+#             */
-/*   Updated: 2017/04/03 21:40:35 by pvan-erp         ###   ########.fr       */
+/*   Updated: 2017/04/04 23:14:13 by pvan-erp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 		else if (button == 4 || button == 5)
 			zoom(button, x, y, mlx);
 		else if (button == 3)
-		{
-			mlx->offset.a = x * mlx->scale;
-			mlx->offset.b = y * mlx->scale;
-		}
+			init_scale(mlx);
 		if (button >= 1 && button <= 5)
 		{
 			if (((t_frac *)mlx->data)->i_max == 0)

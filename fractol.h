@@ -6,7 +6,7 @@
 /*   By: pvan-erp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 21:40:14 by pvan-erp          #+#    #+#             */
-/*   Updated: 2017/04/03 21:40:16 by pvan-erp         ###   ########.fr       */
+/*   Updated: 2017/04/04 23:13:58 by pvan-erp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_frac
 
 void			fractol(char *name);
 void			mlx_driver(t_mlx mlx);
+void			init_scale(t_mlx *mlx);
 int				julia(t_cmplx z0, t_cmplx c, int i_max);
 int				julia3(t_cmplx z0, t_cmplx c, int i_max);
 
