@@ -13,6 +13,7 @@
 #ifndef MLX_DRIVER_H
 # define MLX_DRIVER_H
 # include "minilibx_macos/mlx.h"
+# define THREADS 4
 
 typedef struct	s_px
 {
@@ -53,6 +54,12 @@ typedef	struct	s_mlx
 	float		scalefr;
 	void		*data;
 }				t_mlx;
+
+typedef struct	s_mlx_thread
+{
+	t_mlx	*mlx;
+	int		y;	
+}				t_mlx_thread;
 
 void			draw(t_mlx *mlx);
 

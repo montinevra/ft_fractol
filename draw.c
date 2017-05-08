@@ -63,19 +63,20 @@ static void	draw_man3(t_mlx *mlx)
 			*(int *)(mlx->img.start + px.y * mlx->img.lsize + px.x * 4) = color;
 		}
 	}
-	mlx_put_image_to_window(mlx->id, mlx->win, mlx->img.id, 0, 0);
 }
 
-static void	draw_man(t_mlx *mlx)
+static void	*draw_man_thread(void *mlxt)
 {
+	t_mlx		*mlx;
 	t_coords	px;
 	t_cmplx		c;
 	t_cmplx		z;
 	int			color;
 	int			iter;
 
-	px.y = ~0;
-	while (++px.y < mlx->wsize.y)
+	mlx = ((t_mlx_thread *)mlxt)->mlx;
+	px.y = ((t_mlx_thread *)mlxt)->y;
+	while (px.y < mlx->wsize.y)
 	{
 		c.b = -(px.y * mlx->scale - mlx->offset.b);
 		z.b = 0;
@@ -88,8 +89,47 @@ static void	draw_man(t_mlx *mlx)
 			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)mlx->data)->i_max);
 			*(int *)(mlx->img.start + px.y * mlx->img.lsize + px.x * 4) = color;
 		}
+		px.y += THREADS;
 	}
-	mlx_put_image_to_window(mlx->id, mlx->win, mlx->img.id, 0, 0);
+	return (NULL);
+}
+
+static void	draw_man(t_mlx *mlx)
+{
+	t_mlx_thread	mlxt[THREADS];
+	pthread_t		thread[THREADS];
+	// t_cmplx		c;
+	// t_cmplx		z;
+	// int			color;
+	// int			iter;
+	int i;
+	// mlxt.mlx = mlx;
+	i = ~0;
+	while (++i < THREADS)
+	{
+		mlxt[i].mlx = mlx;
+		mlxt[i].y = i;
+		pthread_create(&thread[i], NULL, draw_man_thread, &mlxt[i]);
+	}
+	i = ~0;
+	while (++i < THREADS)
+	{
+		pthread_join(thread[i], NULL);
+	}
+	// while (++px.y < mlx->wsize.y)
+	// {
+	// 	c.b = -(px.y * mlx->scale - mlx->offset.b);
+	// 	z.b = 0;
+	// 	px.x = ~0;
+	// 	while (++px.x < mlx->wsize.x)
+	// 	{
+	// 		c.a = px.x * mlx->scale - mlx->offset.a;
+	// 		z.a = 0;
+	// 		iter = julia(z, c, ((t_frac *)mlx->data)->i_max);
+	// 		color = get_clr((iter + 1) * 0x2FD / ((t_frac *)mlx->data)->i_max);
+	// 		*(int *)(mlx->img.start + px.y * mlx->img.lsize + px.x * 4) = color;
+	// 	}
+	// }
 }
 
 static void	draw_jul(t_mlx *mlx)
@@ -115,7 +155,6 @@ static void	draw_jul(t_mlx *mlx)
 			*(int *)(mlx->img.start + px.y * mlx->img.lsize + px.x * 4) = color;
 		}
 	}
-	mlx_put_image_to_window(mlx->id, mlx->win, mlx->img.id, 0, 0);
 }
 
 void		draw(t_mlx *mlx)
@@ -126,4 +165,5 @@ void		draw(t_mlx *mlx)
 		draw_man3(mlx);
 	else
 		draw_jul(mlx);
+	mlx_put_image_to_window(mlx->id, mlx->win, mlx->img.id, 0, 0);
 }

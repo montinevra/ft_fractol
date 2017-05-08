@@ -24,7 +24,7 @@ LIBS = -lft -lmlx -framework OpenGL -framework AppKit
 all: $(NAME)
 
 
-$(NAME): $(SRC) libft/libft.a minilibx_macos/libmlx.a fractol.h
+$(NAME): $(SRC) libft/libft.a minilibx_macos/libmlx.a fractol.h 
 	$(CC) -o $(NAME) $(SRC) $(CFLAGS) $(LIBDIR) $(LIBS)
 
 libft/libft.a:
@@ -34,10 +34,13 @@ minilibx_macos/libmlx.a:
 	make -C ./minilibx_macos
 
 clean:
+	make clean -C ./libft
 	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
+
+lclean:
 	make fclean -C ./libft
 	make clean -C ./minilibx_macos
 
