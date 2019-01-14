@@ -21,7 +21,7 @@ static int	is_big_endian(void)
 }
 
 
-void		sdl_loop()
+void		sdl_loop(t_sdl sdl)
 {
 	SDL_Event	e;
 
@@ -34,6 +34,7 @@ void		sdl_loop()
 				return;
 			}
 		}
+		SDL_UpdateWindowSurface(sdl.win);
 	}
 }
 
@@ -62,5 +63,5 @@ void		sdl_driver(t_sdl sdl)
 	{
 		//sdl_hook(sdl.win, 6, 0, motion_hook, &sdl);
 	}
-	sdl_loop(sdl.id);
+	sdl_loop(sdl);
 }

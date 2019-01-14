@@ -62,5 +62,6 @@ typedef struct	s_sdl_thread
 }				t_sdl_thread;
 
 void			draw(t_sdl *sdl);
+void			sdl_loop(t_sdl sdl);
 
 #endif
