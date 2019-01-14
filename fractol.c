@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 
-void	init_scale(t_mlx *mlx)
+void	init_scale(t_sdl *mlx)
 {
 	if (mlx->wsize.x < mlx->wsize.y)
 		mlx->scale = 4.0 / mlx->wsize.x;
@@ -24,16 +24,16 @@ void	init_scale(t_mlx *mlx)
 
 void	fractol(char *name)
 {
-	t_mlx	mlx;
+	t_sdl	sdl;
 
-	mlx.wsize.x = 500;
-	mlx.wsize.y = 500;
-	mlx.scalefr = 1.1;
-	init_scale(&mlx);
-	mlx.data = (t_frac *)malloc(sizeof(t_frac));
-	((t_frac *)mlx.data)->i_max = 0xFF / 8;
-	((t_frac *)mlx.data)->name = name;
-	((t_frac *)mlx.data)->c.a = 0;
-	((t_frac *)mlx.data)->c.b = 0;
-	mlx_driver(mlx);
+	sdl.wsize.x = 500;
+	sdl.wsize.y = 500;
+	sdl.scalefr = 1.1;
+	init_scale(&sdl);
+	sdl.data = (t_frac *)malloc(sizeof(t_frac));
+	((t_frac *)sdl.data)->i_max = 0xFF / 8;
+	((t_frac *)sdl.data)->name = name;
+	((t_frac *)sdl.data)->c.a = 0;
+	((t_frac *)sdl.data)->c.b = 0;
+	sdl_driver(sdl);
 }

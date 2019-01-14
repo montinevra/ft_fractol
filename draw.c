@@ -40,7 +40,7 @@ static int	get_clr(int h)
 	return (((r << 16) + (g << 8) + b));
 }
 
-static void	draw_man3(t_mlx *mlx)
+static void	draw_man3(t_sdl *sdl)
 {
 	t_coords	px;
 	t_cmplx		c;
@@ -49,90 +49,90 @@ static void	draw_man3(t_mlx *mlx)
 	int			iter;
 
 	px.y = ~0;
-	while (++px.y < mlx->wsize.y)
+	while (++px.y < sdl->wsize.y)
 	{
-		c.b = -(px.y * mlx->scale - mlx->offset.b);
+		c.b = -(px.y * sdl->scale - sdl->offset.b);
 		z.b = 0;
 		px.x = ~0;
-		while (++px.x < mlx->wsize.x)
+		while (++px.x < sdl->wsize.x)
 		{
-			c.a = px.x * mlx->scale - mlx->offset.a;
+			c.a = px.x * sdl->scale - sdl->offset.a;
 			z.a = 0;
-			iter = julia3(z, c, ((t_frac *)mlx->data)->i_max);
-			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)mlx->data)->i_max);
-			*(int *)(mlx->img.start + px.y * mlx->img.lsize + px.x * 4) = color;
+			iter = julia3(z, c, ((t_frac *)sdl->data)->i_max);
+			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)sdl->data)->i_max);
+			*(int *)(sdl->img.start + px.y * sdl->img.lsize + px.x * 4) = color;
 		}
 	}
 }
 
-static void	*draw_man_thread(void *mlxt)
+static void	*draw_man_thread(void *sdlt)
 {
-	t_mlx		*mlx;
+	t_sdl		*sdl;
 	t_coords	px;
 	t_cmplx		c;
 	t_cmplx		z;
 	int			color;
 	int			iter;
 
-	mlx = ((t_mlx_thread *)mlxt)->mlx;
-	px.y = ((t_mlx_thread *)mlxt)->y;
-	while (px.y < mlx->wsize.y)
+	sdl = ((t_sdl_thread *)sdlt)->sdl;
+	px.y = ((t_sdl_thread *)sdlt)->y;
+	while (px.y < sdl->wsize.y)
 	{
-		c.b = -(px.y * mlx->scale - mlx->offset.b);
+		c.b = -(px.y * sdl->scale - sdl->offset.b);
 		z.b = 0;
 		px.x = ~0;
-		while (++px.x < mlx->wsize.x)
+		while (++px.x < sdl->wsize.x)
 		{
-			c.a = px.x * mlx->scale - mlx->offset.a;
+			c.a = px.x * sdl->scale - sdl->offset.a;
 			z.a = 0;
-			iter = julia(z, c, ((t_frac *)mlx->data)->i_max);
-			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)mlx->data)->i_max);
-			*(int *)(mlx->img.start + px.y * mlx->img.lsize + px.x * 4) = color;
+			iter = julia(z, c, ((t_frac *)sdl->data)->i_max);
+			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)sdl->data)->i_max);
+			*(int *)(sdl->img.start + px.y * sdl->img.lsize + px.x * 4) = color;
 		}
 		px.y += THREADS;
 	}
 	return (NULL);
 }
 
-static void	draw_man(t_mlx *mlx)
+static void	draw_man(t_sdl *sdl)
 {
-	t_mlx_thread	mlxt[THREADS];
+	t_sdl_thread	sdlt[THREADS];
 	pthread_t		thread[THREADS];
 	// t_cmplx		c;
 	// t_cmplx		z;
 	// int			color;
 	// int			iter;
 	int i;
-	// mlxt.mlx = mlx;
+	// sdlt.sdl = sdl;
 	i = ~0;
 	while (++i < THREADS)
 	{
-		mlxt[i].mlx = mlx;
-		mlxt[i].y = i;
-		pthread_create(&thread[i], NULL, draw_man_thread, &mlxt[i]);
+		sdlt[i].sdl = sdl;
+		sdlt[i].y = i;
+		pthread_create(&thread[i], NULL, draw_man_thread, &sdlt[i]);
 	}
 	i = ~0;
 	while (++i < THREADS)
 	{
 		pthread_join(thread[i], NULL);
 	}
-	// while (++px.y < mlx->wsize.y)
+	// while (++px.y < sdl->wsize.y)
 	// {
-	// 	c.b = -(px.y * mlx->scale - mlx->offset.b);
+	// 	c.b = -(px.y * sdl->scale - sdl->offset.b);
 	// 	z.b = 0;
 	// 	px.x = ~0;
-	// 	while (++px.x < mlx->wsize.x)
+	// 	while (++px.x < sdl->wsize.x)
 	// 	{
-	// 		c.a = px.x * mlx->scale - mlx->offset.a;
+	// 		c.a = px.x * sdl->scale - sdl->offset.a;
 	// 		z.a = 0;
-	// 		iter = julia(z, c, ((t_frac *)mlx->data)->i_max);
-	// 		color = get_clr((iter + 1) * 0x2FD / ((t_frac *)mlx->data)->i_max);
-	// 		*(int *)(mlx->img.start + px.y * mlx->img.lsize + px.x * 4) = color;
+	// 		iter = julia(z, c, ((t_frac *)sdl->data)->i_max);
+	// 		color = get_clr((iter + 1) * 0x2FD / ((t_frac *)sdl->data)->i_max);
+	// 		*(int *)(sdl->img.start + px.y * sdl->img.lsize + px.x * 4) = color;
 	// 	}
 	// }
 }
 
-static void	draw_jul(t_mlx *mlx)
+static void	draw_jul(t_sdl *sdl)
 {
 	t_coords	px;
 	t_cmplx		c;
@@ -141,29 +141,29 @@ static void	draw_jul(t_mlx *mlx)
 	int			iter;
 
 	px.y = ~0;
-	while (++px.y < mlx->wsize.y)
+	while (++px.y < sdl->wsize.y)
 	{
-		c.b = ((t_frac *)mlx->data)->c.b;
-		z.b = -(px.y * mlx->scale - mlx->offset.b);
+		c.b = ((t_frac *)sdl->data)->c.b;
+		z.b = -(px.y * sdl->scale - sdl->offset.b);
 		px.x = ~0;
-		while (++px.x < mlx->wsize.x)
+		while (++px.x < sdl->wsize.x)
 		{
-			c.a = ((t_frac *)mlx->data)->c.a;
-			z.a = px.x * mlx->scale - mlx->offset.a;
-			iter = julia(z, c, ((t_frac *)mlx->data)->i_max);
-			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)mlx->data)->i_max);
-			*(int *)(mlx->img.start + px.y * mlx->img.lsize + px.x * 4) = color;
+			c.a = ((t_frac *)sdl->data)->c.a;
+			z.a = px.x * sdl->scale - sdl->offset.a;
+			iter = julia(z, c, ((t_frac *)sdl->data)->i_max);
+			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)sdl->data)->i_max);
+			*(int *)(sdl->img.start + px.y * sdl->img.lsize + px.x * 4) = color;
 		}
 	}
 }
 
-void		draw(t_mlx *mlx)
+void		draw(t_sdl *sdl)
 {
-	if (ft_strequ(((t_frac *)mlx->data)->name, "mandelbrot"))
-		draw_man(mlx);
-	else if (ft_strequ(((t_frac *)mlx->data)->name, "multibrot"))
-		draw_man3(mlx);
+	if (!strcmp(((t_frac *)sdl->data)->name, "mandelbrot"))
+		draw_man(sdl);
+	else if (!strcmp(((t_frac *)sdl->data)->name, "multibrot"))
+		draw_man3(sdl);
 	else
-		draw_jul(mlx);
-	mlx_put_image_to_window(mlx->id, mlx->win, mlx->img.id, 0, 0);
+		draw_jul(sdl);
+	//sdl_put_image_to_window(sdl->id, sdl->win, sdl->img.id, 0, 0);
 }

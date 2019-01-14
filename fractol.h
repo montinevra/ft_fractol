@@ -12,10 +12,13 @@
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
+# include <unistd.h>
+# include <stdlib.h>
 # include <math.h>
 # include <pthread.h>
-# include "libft/libft.h"
-# include "mlx_driver.h"
+# include <SDL.h>
+// # include "libft/libft.h"
+# include "sdl_driver.h"
 
 typedef struct	s_cmplx
 {
@@ -31,8 +34,8 @@ typedef struct	s_frac
 }				t_frac;
 
 void			fractol(char *name);
-void			mlx_driver(t_mlx mlx);
-void			init_scale(t_mlx *mlx);
+void			sdl_driver(t_sdl sdl);
+void			init_scale(t_sdl *sdl);
 int				julia(t_cmplx z0, t_cmplx c, int i_max);
 int				julia3(t_cmplx z0, t_cmplx c, int i_max);
 

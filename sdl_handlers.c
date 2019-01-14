@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_handlers.c                                     :+:      :+:    :+:   */
+/*   sdl_handlers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvan-erp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,30 +12,30 @@
 
 #include "fractol.h"
 
-static void	zoom(int button, int x, int y, t_mlx *mlx)
+static void	zoom(int button, int x, int y, t_sdl *sdl)
 {
 	long double	oldscale;
 
-	oldscale = mlx->scale;
+	oldscale = sdl->scale;
 	if (button == 5)
-		mlx->scale *= mlx->scalefr;
+		sdl->scale *= sdl->scalefr;
 	else if (button == 4)
-		mlx->scale /= mlx->scalefr;
-	mlx->offset.a += x * (mlx->scale - oldscale);
-	mlx->offset.b += y * (mlx->scale - oldscale);
+		sdl->scale /= sdl->scalefr;
+	sdl->offset.a += x * (sdl->scale - oldscale);
+	sdl->offset.b += y * (sdl->scale - oldscale);
 }
 
-int			expose_hook(t_mlx *mlx)
+int			expose_hook(t_sdl *sdl)
 {
-	draw(mlx);
+	draw(sdl);
 	return (0);
 }
 
-int			motion_hook(int x, int y, t_mlx *mlx)
+int			motion_hook(int x, int y, t_sdl *sdl)
 {
-	((t_frac *)mlx->data)->c.a = x * mlx->scale - mlx->offset.a;
-	((t_frac *)mlx->data)->c.b = -(y * mlx->scale - mlx->offset.b);
-	draw(mlx);
+	((t_frac *)sdl->data)->c.a = x * sdl->scale - sdl->offset.a;
+	((t_frac *)sdl->data)->c.b = -(y * sdl->scale - sdl->offset.b);
+	draw(sdl);
 	return (0);
 }
 
@@ -47,49 +47,49 @@ int			motion_hook(int x, int y, t_mlx *mlx)
 **	5: scroll down
 */
 
-int			mouse_hook(int button, int x, int y, t_mlx *mlx)
+int			mouse_hook(int button, int x, int y, t_sdl *sdl)
 {
 	if (y >= 0)
 	{
 		if (button == 1)
-			((t_frac *)mlx->data)->i_max++;
+			((t_frac *)sdl->data)->i_max++;
 		else if (button == 2)
-			((t_frac *)mlx->data)->i_max--;
+			((t_frac *)sdl->data)->i_max--;
 		else if (button == 4 || button == 5)
-			zoom(button, x, y, mlx);
+			zoom(button, x, y, sdl);
 		else if (button == 3)
-			init_scale(mlx);
+			init_scale(sdl);
 		if (button >= 1 && button <= 5)
 		{
-			if (((t_frac *)mlx->data)->i_max == 0)
-				((t_frac *)mlx->data)->i_max = 1;
-			draw(mlx);
+			if (((t_frac *)sdl->data)->i_max == 0)
+				((t_frac *)sdl->data)->i_max = 1;
+			draw(sdl);
 		}
 	}
 	return (0);
 }
 
-int			key_hook(int key_code, t_mlx *mlx)
+int			key_hook(int key_code, t_sdl *sdl)
 {
 	if (key_code == 53)
 	{
-		free(mlx->img.id);
-		free(mlx->data);
-		free(mlx->win);
-		free(mlx->id);
+		free(sdl->img.id);
+		free(sdl->data);
+		free(sdl->win);
+		free(sdl->id);
 		exit(0);
 	}
 	else
 	{
 		if (key_code == 123)
-			mlx->offset.a -= 10 * mlx->scale;
+			sdl->offset.a -= 10 * sdl->scale;
 		else if (key_code == 124)
-			mlx->offset.a += 10 * mlx->scale;
+			sdl->offset.a += 10 * sdl->scale;
 		else if (key_code == 125)
-			mlx->offset.b += 10 * mlx->scale;
+			sdl->offset.b += 10 * sdl->scale;
 		else if (key_code == 126)
-			mlx->offset.b -= 10 * mlx->scale;
-		draw(mlx);
+			sdl->offset.b -= 10 * sdl->scale;
+		draw(sdl);
 	}
 	return (0);
 }

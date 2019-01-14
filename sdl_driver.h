@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_driver.h                                       :+:      :+:    :+:   */
+/*   sdl_driver.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvan-erp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MLX_DRIVER_H
-# define MLX_DRIVER_H
-# include "minilibx_macos/mlx.h"
+#ifndef SDL_DRIVER_H
+# define SDL_DRIVER_H
+//# include "minilibx_macos/sdl.h"
 # define THREADS 4
 
 typedef struct	s_px
@@ -34,33 +34,33 @@ typedef struct	s_offset
 	long double	b;
 }				t_offset;
 
-typedef struct	s_mlx_img
+typedef struct	s_sdl_img
 {
-	void	*id;
-	char	*start;
-	int		bppx;
-	int		lsize;
-	int		endian;
-}				t_mlx_img;
+	SDL_Surface	*id;
+	char		*start;
+	int			bppx;
+	int			lsize;
+	int			endian;
+}				t_sdl_img;
 
-typedef	struct	s_mlx
+typedef	struct	s_sdl
 {
 	void		*id;
-	void		*win;
-	t_mlx_img	img;
+	SDL_Window	*win;
+	t_sdl_img	img;
 	t_coords	wsize;
 	t_offset	offset;
 	long double	scale;
 	float		scalefr;
 	void		*data;
-}				t_mlx;
+}				t_sdl;
 
-typedef struct	s_mlx_thread
+typedef struct	s_sdl_thread
 {
-	t_mlx	*mlx;
+	t_sdl	*sdl;
 	int		y;	
-}				t_mlx_thread;
+}				t_sdl_thread;
 
-void			draw(t_mlx *mlx);
+void			draw(t_sdl *sdl);
 
 #endif

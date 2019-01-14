@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_handlers.h                                     :+:      :+:    :+:   */
+/*   sdl_handlers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvan-erp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MLX_HANDLERS_H
-# define MLX_HANDLERS_H
+#ifndef SDL_HANDLERS_H
+# define SDL_HANDLERS_H
 
-int	expose_hook(t_mlx *mlx);
-int	motion_hook(int x, int y, t_mlx *mlx);
-int	mouse_hook(int button, int x, int y, t_mlx *mlx);
-int	key_hook(int key_code, t_mlx *mlx);
+int	expose_hook(t_sdl *sdl);
+int	motion_hook(int x, int y, t_sdl *sdl);
+int	mouse_hook(int button, int x, int y, t_sdl *sdl);
+int	key_hook(int key_code, t_sdl *sdl);
 
 #endif
