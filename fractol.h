@@ -34,7 +34,7 @@ typedef struct	s_frac
 }				t_frac;
 
 void			fractol(char *name);
-void			sdl_driver(t_sdl sdl);
+void			sdl_driver(t_sdl *sdl);
 void			init_scale(t_sdl *sdl);
 int				julia(t_cmplx z0, t_cmplx c, int i_max);
 int				julia3(t_cmplx z0, t_cmplx c, int i_max);

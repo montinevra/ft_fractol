@@ -35,5 +35,5 @@ void	fractol(char *name)
 	((t_frac *)sdl.data)->name = name;
 	((t_frac *)sdl.data)->c.a = 0;
 	((t_frac *)sdl.data)->c.b = 0;
-	sdl_driver(sdl);
+	sdl_driver(&sdl);
 }

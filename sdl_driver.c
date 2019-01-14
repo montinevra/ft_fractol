@@ -21,7 +21,7 @@ static int	is_big_endian(void)
 }
 
 
-void		sdl_loop(t_sdl sdl)
+void		sdl_loop(t_sdl *sdl)
 {
 	SDL_Event	e;
 
@@ -34,34 +34,35 @@ void		sdl_loop(t_sdl sdl)
 				return;
 			}
 		}
-		SDL_UpdateWindowSurface(sdl.win);
+		//draw(&sdl);
+		SDL_UpdateWindowSurface(sdl->win);
 	}
 }
 
-void		sdl_driver(t_sdl sdl)
+void		sdl_driver(t_sdl *sdl)
 {
 	char	*wname;
 
-	wname = malloc(strlen(((t_frac *)sdl.data)->name) + 11);
+	wname = malloc(strlen(((t_frac *)sdl->data)->name) + 11);
 	strcpy(wname, "fractol - ");
-	strcat(wname, ((t_frac *)sdl.data)->name);
-	//wname = strjoin("fractol - ", ((t_frac *)sdl.data)->name);
+	strcat(wname, ((t_frac *)sdl->data)->name);
+	//wname = strjoin("fractol - ", ((t_frac *)sdl->data)->name);
 	SDL_Init(SDL_INIT_VIDEO);
-	//sdl.id = sdl_init();
-	sdl.win = SDL_CreateWindow(wname, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sdl.wsize.x, sdl.wsize.y, 0);
+	//sdl->id = sdl_init();
+	sdl->win = SDL_CreateWindow(wname, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sdl->wsize.x, sdl->wsize.y, 0);
 	free(wname);
 	//strdel(&wname);
-	sdl.img.id = SDL_GetWindowSurface(sdl.win);
-	sdl.img.bppx = 32;
-	sdl.img.lsize = sdl.wsize.y * sdl.img.bppx / 4;
-	sdl.img.endian = is_big_endian();
-	//sdl.img.start = sdl_get_data_addr(sdl.img.id, &sdl.img.bppx, &sdl.img.lsize, &sdl.img.endian);
-	// sdl_mouse_hook(sdl.win, mouse_hook, &sdl);
-	// sdl_key_hook(sdl.win, key_hook, &sdl);
-	// sdl_expose_hook(sdl.win, expose_hook, &sdl);
-	if (!strcmp(((t_frac *)sdl.data)->name, "julia"))
+	sdl->img.id = SDL_GetWindowSurface(sdl->win);
+	sdl->img.bppx = 32;
+	sdl->img.lsize = sdl->wsize.y * sdl->img.bppx / 4;
+	sdl->img.endian = is_big_endian();
+	//sdl->img.start = sdl_get_data_addr(sdl->img.id, &sdl->img.bppx, &sdl->img.lsize, &sdl->img.endian);
+	// sdl_mouse_hook(sdl->win, mouse_hook, &sdl);
+	// sdl_key_hook(sdl->win, key_hook, &sdl);
+	// sdl_expose_hook(sdl->win, expose_hook, &sdl);
+	if (!strcmp(((t_frac *)sdl->data)->name, "julia"))
 	{
-		//sdl_hook(sdl.win, 6, 0, motion_hook, &sdl);
+		//sdl_hook(sdl->win, 6, 0, motion_hook, &sdl);
 	}
 	sdl_loop(sdl);
 }
