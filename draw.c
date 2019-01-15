@@ -60,7 +60,7 @@ static void	draw_man3(t_sdl *sdl)
 			z.a = 0;
 			iter = julia3(z, c, ((t_frac *)sdl->data)->i_max);
 			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)sdl->data)->i_max);
-			*(int *)(sdl->img.start + px.y * sdl->img.lsize + px.x * 4) = color;
+			((int *)(sdl->img.id->pixels))[px.y * (sdl->wsize.y) + px.x] = color;
 		}
 	}
 }
@@ -87,7 +87,7 @@ static void	*draw_man_thread(void *sdlt)
 			z.a = 0;
 			iter = julia(z, c, ((t_frac *)sdl->data)->i_max);
 			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)sdl->data)->i_max);
-			*(int *)(sdl->img.start + px.y * sdl->img.lsize + px.x * 4) = color;
+			((int *)(sdl->img.id->pixels))[px.y * (sdl->wsize.y) + px.x] = color;
 		}
 		px.y += THREADS;
 	}
@@ -130,6 +130,7 @@ static void	draw_man(t_sdl *sdl)
 	// 		*(int *)(sdl->img.start + px.y * sdl->img.lsize + px.x * 4) = color;
 	// 	}
 	// }
+
 }
 
 static void	draw_jul(t_sdl *sdl)
@@ -152,7 +153,7 @@ static void	draw_jul(t_sdl *sdl)
 			z.a = px.x * sdl->scale - sdl->offset.a;
 			iter = julia(z, c, ((t_frac *)sdl->data)->i_max);
 			color = get_clr((iter + 1) * 0x2FD / ((t_frac *)sdl->data)->i_max);
-			*(int *)(sdl->img.start + px.y * sdl->img.lsize + px.x * 4) = color;
+			((int *)(sdl->img.id->pixels))[px.y * (sdl->wsize.y) + px.x] = color;
 		}
 	}
 }

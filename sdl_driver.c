@@ -33,8 +33,12 @@ void		sdl_loop(t_sdl *sdl)
 			{
 				return;
 			}
+			else if(e.type == SDL_KEYDOWN)
+			{
+
+			}
 		}
-		//draw(&sdl);
+		draw(sdl);
 		SDL_UpdateWindowSurface(sdl->win);
 	}
 }
