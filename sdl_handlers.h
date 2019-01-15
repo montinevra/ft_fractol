@@ -15,6 +15,7 @@
 
 int	expose_hook(t_sdl *sdl);
 int	motion_hook(int x, int y, t_sdl *sdl);
+int wheel_hook(int button, t_sdl *sdl);
 int	mouse_hook(int button, int x, int y, t_sdl *sdl);
 int	key_hook(int key_code, t_sdl *sdl);
 

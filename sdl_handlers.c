@@ -39,25 +39,31 @@ int			motion_hook(int x, int y, t_sdl *sdl)
 	return (0);
 }
 
-/*
-**	1: left
-**	2: right
-**	3: middle/thumbs
-**	4: scroll up
-**	5: scroll down
-*/
+int			wheel_hook(int button, t_sdl *sdl)
+{
+	int x;
+	int y;
+
+	SDL_GetMouseState(&x, &y);
+	if (button > 0)
+		zoom(4, x, y, sdl);
+	else if (button < 0)
+		zoom(5, x, y, sdl);
+	draw(sdl);
+	return (0);
+}
 
 int			mouse_hook(int button, int x, int y, t_sdl *sdl)
 {
 	if (y >= 0)
 	{
-		if (button == 1)
+		if (button == SDL_BUTTON_LEFT)
 			((t_frac *)sdl->data)->i_max++;
-		else if (button == 2)
+		else if (button == SDL_BUTTON_RIGHT)
 			((t_frac *)sdl->data)->i_max--;
 		else if (button == 4 || button == 5)
 			zoom(button, x, y, sdl);
-		else if (button == 3)
+		else if (button == SDL_BUTTON_MIDDLE)
 			init_scale(sdl);
 		if (button >= 1 && button <= 5)
 		{

@@ -25,6 +25,7 @@ void		sdl_loop(t_sdl *sdl)
 {
 	SDL_Event	e;
 
+	draw(sdl);
 	while (1)
 	{
 		while (SDL_PollEvent(&e))
@@ -36,9 +37,20 @@ void		sdl_loop(t_sdl *sdl)
 				case SDL_KEYDOWN:
 					key_hook(e.key.keysym.sym, sdl);
 					break;
+				case SDL_MOUSEBUTTONDOWN:
+					mouse_hook(e.button.button, e.button.x, e.button.y, sdl);
+					break;
+				case SDL_MOUSEWHEEL:
+					wheel_hook(e.wheel.y, sdl);
+					break;
+				case SDL_MOUSEMOTION:
+					if (!strcmp(((t_frac *)sdl->data)->name, "julia"))
+					{
+						motion_hook(e.motion.x, e.motion.y, sdl);
+					}
+					break;
 			}
 		}
-		draw(sdl);
 		SDL_UpdateWindowSurface(sdl->win);
 	}
 }
