@@ -71,7 +71,7 @@ int			mouse_hook(int button, int x, int y, t_sdl *sdl)
 
 int			key_hook(int key_code, t_sdl *sdl)
 {
-	if (key_code == 53)
+	if (key_code == SDLK_ESCAPE)
 	{
 		free(sdl->img.id);
 		free(sdl->data);
@@ -81,13 +81,13 @@ int			key_hook(int key_code, t_sdl *sdl)
 	}
 	else
 	{
-		if (key_code == 123)
+		if (key_code == SDLK_LEFT)
 			sdl->offset.a -= 10 * sdl->scale;
-		else if (key_code == 124)
+		else if (key_code == SDLK_RIGHT)
 			sdl->offset.a += 10 * sdl->scale;
-		else if (key_code == 125)
+		else if (key_code == SDLK_DOWN)
 			sdl->offset.b += 10 * sdl->scale;
-		else if (key_code == 126)
+		else if (key_code == SDLK_UP)
 			sdl->offset.b -= 10 * sdl->scale;
 		draw(sdl);
 	}

@@ -29,13 +29,13 @@ void		sdl_loop(t_sdl *sdl)
 	{
 		while (SDL_PollEvent(&e))
 		{
-			if (e.type == SDL_QUIT)
+			switch (e.type)
 			{
-				return;
-			}
-			else if(e.type == SDL_KEYDOWN)
-			{
-
+				case SDL_QUIT:
+					return;
+				case SDL_KEYDOWN:
+					key_hook(e.key.keysym.sym, sdl);
+					break;
 			}
 		}
 		draw(sdl);
